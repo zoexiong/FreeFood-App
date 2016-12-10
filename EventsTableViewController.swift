@@ -138,6 +138,8 @@ class EventsTableViewController: UITableViewController {
             
             var newEvent = Event()
             
+            
+            
             newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
             newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
             newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
@@ -147,6 +149,7 @@ class EventsTableViewController: UITableViewController {
             newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
             newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
             newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
+            
             
             events.append(newEvent)
         }
@@ -210,7 +213,7 @@ class EventsTableViewController: UITableViewController {
         if segue.identifier == "DetailsVC" {
             let viewController = segue.destination as! EventDetailViewController
             
-            // eventSelected = events[IndexPath]
+            eventSelected = events[IndexPath]
             
             /*
             print(eventSelected.eventName)
