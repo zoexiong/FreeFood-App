@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+        FIRApp.configure()
         if self.window!.rootViewController as? UITabBarController != nil {
             let tabbarController = self.window!.rootViewController as! UITabBarController
             

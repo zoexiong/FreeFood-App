@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ppr-ie-97x">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ppr-ie-97x">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -193,7 +193,7 @@
                         <outlet property="eventDescription" destination="igt-RO-bga" id="LjL-NE-Ahr"/>
                         <outlet property="eventFoods" destination="6Tf-FU-pbF" id="VwH-np-lqt"/>
                         <outlet property="eventLocation" destination="a9N-2j-1Zk" id="C3c-0F-xar"/>
-                        <outlet property="eventName" destination="gRV-RM-aUF" id="baF-aJ-ZLb"/>
+                        <outlet property="eventName" destination="gRV-RM-aUF" id="pWI-9H-A2h"/>
                         <outlet property="eventTime" destination="ZCm-Xj-MMI" id="Dgn-YG-MjF"/>
                     </connections>
                 </viewController>
@@ -287,7 +287,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="pickerTextField" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0M6-LZ-Mg7" userLabel="Time Cell">
-                                                    <rect key="frame" x="112" y="11.5" width="255" height="21"/>
+                                                    <rect key="frame" x="112" y="12" width="255" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -319,7 +319,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="endPickerTextField" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f6j-WU-kta" userLabel="Time Cell">
-                                                    <rect key="frame" x="102" y="11.5" width="265" height="21"/>
+                                                    <rect key="frame" x="102" y="12" width="265" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -351,7 +351,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Place or address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zk3-pl-x3K">
-                                                    <rect key="frame" x="96" y="11.5" width="271" height="21"/>
+                                                    <rect key="frame" x="96" y="12" width="271" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -380,7 +380,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tc9-cN-pdm">
-                                                    <rect key="frame" x="93" y="11.5" width="274" height="21"/>
+                                                    <rect key="frame" x="93" y="12" width="274" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -409,7 +409,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Any URL for RSVP?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M79-Bz-90u">
-                                                    <rect key="frame" x="51" y="11.5" width="316" height="21"/>
+                                                    <rect key="frame" x="51" y="12" width="316" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="URL"/>
@@ -438,7 +438,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Optional" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XuG-ON-ov9">
-                                                    <rect key="frame" x="112" y="11.5" width="255" height="21"/>
+                                                    <rect key="frame" x="112" y="12" width="255" height="21"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -654,7 +654,7 @@
                                     <outlet property="eventLocation" destination="yEn-xQ-xBZ" id="Z5E-Jt-1Rd"/>
                                     <outlet property="eventName" destination="KMf-Ug-Y8z" id="gRQ-9Q-uyr"/>
                                     <outlet property="eventTime" destination="H41-Ix-wRa" id="Ruq-3x-jwo"/>
-                                    <segue destination="aQh-B0-NnY" kind="show" id="uEh-e8-qYQ"/>
+                                    <segue destination="aQh-B0-NnY" kind="show" identifier="DetailsVC" id="uEh-e8-qYQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -724,7 +724,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mye-qf-jTt" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Food" image="Food" id="jfT-rD-UTq"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rfn-HF-kEn">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="rfn-HF-kEn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -743,7 +743,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q0u-am-0xo" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Events" image="Time" id="Ojg-df-KEd"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="r2t-gl-HZU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="r2t-gl-HZU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -933,7 +933,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i4k-fl-hra" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Add Event" image="Post" id="HrD-qB-laM"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AkZ-UT-5b7">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AkZ-UT-5b7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -952,7 +952,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lbl-cp-CVU" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Setting" image="Setting" id="Vab-bY-E9u"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pbg-Xe-utU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="pbg-Xe-utU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -970,7 +970,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CVd-Zx-e4V" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yjV-42-3bx">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yjV-42-3bx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -988,7 +988,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ojI-jr-sb1" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BsJ-5q-TCv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="BsJ-5q-TCv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1061,7 +1061,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="053-TG-NVF" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="n6i-eE-bRd">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="n6i-eE-bRd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

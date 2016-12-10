@@ -56,6 +56,7 @@ class FoodsTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
+               self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
         super.viewDidLoad()
         loadData()
         

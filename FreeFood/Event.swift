@@ -16,14 +16,15 @@ class Event{
     var eventEndTime:String
     var eventDate:String
     var eventDescription:String
+    var eventZipcode:String
     var eventUrl:String
- //   var eventZipcode:String
+
     
     convenience init() {
-        self.init(eventName: "", eventStartTime: "", eventEndTime: "", eventDate: "", eventLocation: "", eventFoods: "", eventDescription: "", eventUrl: "")
+        self.init(eventName: "", eventZipcode:"", eventStartTime: "", eventEndTime: "", eventDate: "", eventLocation: "", eventFoods: "", eventDescription: "", eventUrl: "")
     }
     
-    init(eventName:String, eventStartTime:String, eventEndTime:String, eventDate:String, eventLocation:String, eventFoods:String, eventDescription: String, eventUrl: String) {
+    init(eventName:String, eventZipcode:String, eventStartTime:String, eventEndTime:String, eventDate:String, eventLocation:String, eventFoods:String, eventDescription: String, eventUrl: String) {
         self.eventName=eventName
         self.eventStartTime=eventStartTime
         self.eventEndTime=eventEndTime
@@ -31,8 +32,9 @@ class Event{
         self.eventLocation=eventLocation
         self.eventFoods=eventFoods
         self.eventDescription = eventDescription
+        self.eventZipcode = eventZipcode
         self.eventUrl = eventUrl
-        //self.eventZipcode = eventZipcode
+
     }
     
 }

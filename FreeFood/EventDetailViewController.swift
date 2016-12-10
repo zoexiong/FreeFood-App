@@ -41,10 +41,11 @@ class EventDetailViewController: UIViewController {
     }
     
     func showEventDetails() {
-        // print(eventSelected.eventName)
-        eventName.text = eventSelected.eventName
+        //print(eventSelected.eventName)
+        //eventName.text = eventSelected.eventName
+        eventName.text = "1111"
         eventFoods.text = eventSelected.eventFoods
-        eventTime.text = eventSelected.eventStartTime+" to "+eventSelected.eventEndTime
+        eventTime.text = eventSelected.eventDate + "    " + eventSelected.eventStartTime+" to "+eventSelected.eventEndTime
         eventLocation.text = eventSelected.eventLocation
         eventDescription.text = eventSelected.eventDescription
         if (eventSelected.eventUrl.characters.count > 0) {
