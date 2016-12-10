@@ -99,7 +99,7 @@ class PostEventTableViewController: UITableViewController {
         }
         
         if !eventZipcode.text!.isEmpty {
-            copyData[Constants.Event2.evventZipCode] = eventZipcode.text! as String
+            copyData[Constants.Event2.eventZipcode] = eventZipcode.text! as String
         } /*else {
          // create an alert - > Reqd field
          let alertController = UIAlertController(title: "Required Section", message: "Zipcode is a required field", preferredStyle: UIAlertControllerStyle.alert)
@@ -114,12 +114,60 @@ class PostEventTableViewController: UITableViewController {
         if !eventURL.text!.isEmpty {
             copyData[Constants.Event2.eventUrl] = eventURL.text! as String
         }
-        if !pickerTextField.text!.isEmpty {
-            copyData[Constants.Event2.eventStartTime] = pickerTextField.text! as String
+        
+        let start_time_text = pickerTextField.text! as String
+        
+        if !start_time_text.isEmpty {
+            
+            
+            let index_date = start_time_text.index(start_time_text.startIndex, offsetBy: 10)
+            
+            let index_start_time = start_time_text.index(start_time_text.startIndex, offsetBy: 11)
+            
+            
+            copyData[Constants.Event2.eventDate] = start_time_text.substring(to: index_date)
+            
+            copyData[Constants.Event2.eventStartTime] = start_time_text.substring(from: index_start_time)
         }
-        if !endPickerTextField.text!.isEmpty {
-            copyData[Constants.Event2.eventEndTime] = endPickerTextField.text! as String
+        
+        let end_time_text = endPickerTextField.text! as String
+        
+        if !end_time_text.isEmpty {
+            
+            
+            let index_end_time = end_time_text.index(end_time_text.startIndex, offsetBy: 11)
+            
+            //let end_time = endTend_time_textim.substring(from: index_end_time)  // playground
+            //print(end_time)
+            
+            
+            copyData[Constants.Event2.eventEndTime] = end_time_text.substring(from: index_end_time)
         }
+        
+        if foodItems.count>0 {
+            var foods = ""
+            
+            for food in foodItems{
+                foods += food
+                foods += ", "
+            }
+            
+            
+            //let name: String = "Dolphin"
+            let range = foods.index(foods.endIndex, offsetBy: -2)..<foods.endIndex
+            foods.removeSubrange(range)
+            
+            /*
+             let index_foods = foods.index(foods.startIndex, offsetBy: 2)
+             
+             foods = foods.substring(from: index_foods)
+             */
+            //foods.remove(at: foods.index(before: foods.endIndex))
+            //foods = foods.replacingOccurrences(of: ",", with: ", ", options: .literal, range: nil)
+            copyData[Constants.Event2.eventFoods] = foods
+        }
+        
+        
         ref.child("Events").childByAutoId().setValue(copyData)
     }
     
@@ -334,5 +382,4 @@ class FoodList{
     }
 }
 
-var foodList = FoodList(["Assorted Desserts","Barbeque","Bread","Burrito","Burger","Cake","Coffee","Coke","Cookie","Donut","Fries","Fruit","Hotdog","Ice Cream","Juice","Muffin","Pasta","Pastry","Pie","Pizza","Rice","Sandwich","Salad","Taco"])
-
+var foodList = FoodList(["Pizza","Cookie","Coke","Salad","Taco","Coffee","Rice","Fries","Burrito","Pasta","Juice","Muffin","Assorted Desserts","Barbeque","Bread","Burger","Cake","Donut","Fruit","Hotdog","Ice Cream","Pastry","Pie","Sandwich"])

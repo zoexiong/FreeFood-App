@@ -13,6 +13,7 @@ import Firebase
 //test data goes here
 
 
+
 extension String {
     var first: String {
         return String(characters.prefix(1))
@@ -27,8 +28,8 @@ extension String {
 
 class EventsTableViewController: UITableViewController {
     
-    //var eventSelected : Event = Event()
-    //var events = [Event]()
+    var eventSelected : Event = Event()
+    var events = [Event]()
     
     var refresher: UIRefreshControl!
     var events2 = [FIRDataSnapshot]()
@@ -131,25 +132,35 @@ class EventsTableViewController: UITableViewController {
         
         
         //print("See this")
-        
-        let eventSnapshot : FIRDataSnapshot! = events2[indexPath.row]
-        
-        let event = eventSnapshot.value as! [String:String]
-        let eventNam = event[Constants.Event2.eventName] ?? "[name]"
-        let eventLoc = event[Constants.Event2.eventLocation] ?? "[text]"
-        
-        let startTim = event[Constants.Event2.eventStartTime] ?? "[text]"
-        let endTim = event[Constants.Event2.eventEndTime] ?? "[text]"
-        
-        cell.eventName.text = eventNam
-        cell.eventLocation.text = eventLoc
-        cell.eventTime.text = startTim+" to "+endTim
-        
-        /*let event = events[indexPath.row]
+        for singleEvent in events2{
+            let eventSnapshot : FIRDataSnapshot! = events2[indexPath.row]
+            var event = eventSnapshot.value as! [String:String]
+            
+            var newEvent = Event()
+            
+            newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
+            newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
+            newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
+            newEvent.eventEndTime = event[Constants.Event2.eventEndTime] ?? "[text]"
+            newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
+            newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
+            newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
+            newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
+            newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
+            
+            events.append(newEvent)
+        }
+        /*
+         foods = foods.replacingOccurrences(of: ",", with: ", ", options: .literal, range: nil)
+         */
+        let event = events[indexPath.row]
         cell.eventName.text = event.eventName
         cell.eventLocation.text = event.eventLocation
-        cell.eventTime.text = event.eventTime
-        cell.eventFoods.text = event.eventFoods*/
+        //看这里看这里
+        //cell.eventDate.text = date
+        cell.eventTime.text = event.eventStartTime+" to "+event.eventEndTime
+        cell.eventFoods.text = event.eventFoods
+
         
         return cell
     }

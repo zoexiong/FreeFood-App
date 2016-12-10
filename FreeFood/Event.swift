@@ -12,17 +12,21 @@ class Event{
     var eventName:String
     var eventLocation:String
     var eventFoods:String
-    var eventTime:String
+    var eventStartTime:String
+    var eventEndTime:String
+    var eventDate:String
     var eventDescription:String
     var eventUrl:String
     
     convenience init() {
-        self.init(eventName: "", eventTime: "", eventLocation: "", eventFoods: "", eventDescription: "", eventUrl: "")
+        self.init(eventName: "", eventStartTime: "", eventEndTime: "", eventDate: "", eventLocation: "", eventFoods: "", eventDescription: "", eventUrl: "")
     }
     
-    init(eventName:String, eventTime:String, eventLocation:String, eventFoods:String, eventDescription: String, eventUrl: String) {
+    init(eventName:String, eventStartTime:String, eventEndTime:String, eventDate:String, eventLocation:String, eventFoods:String, eventDescription: String, eventUrl: String) {
         self.eventName=eventName
-        self.eventTime=eventTime
+        self.eventStartTime=eventStartTime
+        self.eventEndTime=eventEndTime
+        self.eventDate=eventDate
         self.eventLocation=eventLocation
         self.eventFoods=eventFoods
         self.eventDescription = eventDescription
@@ -35,11 +39,13 @@ struct Constants {
     struct Event2 {
         static let eventName = "Name"
         static let eventLocation = "Location"
+        static let eventDate = "Date"
         static let eventStartTime = "StartTime"
         static let eventEndTime = "EndTime"
-        static let eventFoods = [Food]()
+        static let eventFoods = "Foods"
         static let eventDescription = "Description"
         static let eventUrl = "Url"
-        static let evventZipCode = "Zipcode"
+        static let eventZipcode = "Zipcode"
+
     }
 }
