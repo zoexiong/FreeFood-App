@@ -17,6 +17,7 @@ class Event{
     var eventDate:String
     var eventDescription:String
     var eventUrl:String
+ //   var eventZipcode:String
     
     convenience init() {
         self.init(eventName: "", eventStartTime: "", eventEndTime: "", eventDate: "", eventLocation: "", eventFoods: "", eventDescription: "", eventUrl: "")
@@ -31,6 +32,7 @@ class Event{
         self.eventFoods=eventFoods
         self.eventDescription = eventDescription
         self.eventUrl = eventUrl
+        //self.eventZipcode = eventZipcode
     }
     
 }

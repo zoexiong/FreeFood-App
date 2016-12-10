@@ -14,11 +14,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
-        FIRApp.configure()
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
+//        FIRApp.configure()
+//        return true
+//    }
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        if self.window!.rootViewController as? UITabBarController != nil {
+            let tabbarController = self.window!.rootViewController as! UITabBarController
+            
+            setdefault()
+            var selectedIndex=Int()
+            
+            if defaultData.freshLaunch == true { //only launch the default tab at fresh launch
+                defaultData.freshLaunch = false
+                if defaultData.checktab == false{//haven init userdefault then use system default
+                    selectedIndex = 0
+                }else{
+                    selectedIndex = defaultData.userscreen-1
+                }
+                
+                tabbarController.selectedIndex = selectedIndex
+                
+            }
+            
+        }
+        else{
+            print("couldn't reach rootViewController named UITabBarController")
+        }
         return true
     }
-    
+
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

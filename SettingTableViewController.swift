@@ -8,9 +8,60 @@
 
 import UIKit
 
-class SettingTableViewController: UITableViewController {
+class defaultData {
+    static var userscreen=userDefault.integer(forKey: "initialTab")//default screen = food
+    static var userzip=userDefault.string(forKey: "zipcode") //default zip = 98105
+    
+    static var checktab = false
+    static var checkzip = false
+    static var freshLaunch = true
+    static var checkLaunch = 0
+    
+}
 
-    @IBOutlet weak var toggle: UISwitch!
+func setdefault(){
+    
+    if (defaultData.userzip != nil){
+        defaultData.checkzip = true
+    }else{
+        userDefault.set("98105",forKey:"zipcode")
+    }
+    
+    if (defaultData.userscreen != 0){ //if not set, the default is set to 0
+        //if equals to 0, which means it is set
+        defaultData.checktab = true
+    }else{
+        userDefault.set(1, forKey:"initialTab")
+    }
+    
+}
+
+class SettingTableViewController: UITableViewController {
+    //set displayed data
+    
+    func displayData(){
+        userZipcode.text = defaultData.userzip!
+        switch(defaultData.userscreen){
+        case 1:
+            initialScreen.text = "Food"
+        case 2:
+            initialScreen.text = "Event"
+        default:
+            initialScreen.text = "Food"
+        }
+    }
+    
+    @IBOutlet weak var initialScreen: UILabel!
+    
+    @IBOutlet weak var userZipcode: UILabel!
+    
+    //refresh data before this view is visible
+    override func viewDidAppear(_ animated: Bool) {
+        
+        self.tableView.reloadData()
+        displayData()
+        }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +97,11 @@ class SettingTableViewController: UITableViewController {
         return super.tableView(tableView, cellForRowAt: indexPath)
     }
     
+    //    disable highlight for each row
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //Change the selected background view of the cell.
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.

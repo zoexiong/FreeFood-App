@@ -90,10 +90,10 @@ class EventsTableViewController: UITableViewController {
     func refresh() {
         // clears previous events 
         // searches for new events from the same link (JSON File, which could have been updated)
-        //events = [Event]()
+        events = [Event]()
         //loadData()
-        //self.events2 = []
-        //configureDataBase()
+        self.events2 = []
+        configureDataBase()
         self.tableView.reloadData()
         refresher.endRefreshing()
     }
@@ -147,7 +147,7 @@ class EventsTableViewController: UITableViewController {
             newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
             newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
             newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
-            newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
+            //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
             newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
             
             
@@ -210,16 +210,18 @@ class EventsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "DetailsVC" {
-            let viewController = segue.destination as! EventDetailViewController
-            
-            eventSelected = events[IndexPath]
-            
+        if  segue.identifier == "DetailsVC",
+            let destination = segue.destination as? EventDetailViewController,
+            let eventIndex = tableView.indexPathForSelectedRow?.row
+        {
+            destination.eventSelected = events[eventIndex]
+        }
+
             /*
             print(eventSelected.eventName)
             
             viewController.eventSelected = self.eventSelected
                 */
-        }
     }
 }
+

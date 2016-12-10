@@ -44,7 +44,7 @@ class EventDetailViewController: UIViewController {
         // print(eventSelected.eventName)
         eventName.text = eventSelected.eventName
         eventFoods.text = eventSelected.eventFoods
-        eventTime.text = eventSelected.eventTime
+        eventTime.text = eventSelected.eventStartTime+" to "+eventSelected.eventEndTime
         eventLocation.text = eventSelected.eventLocation
         eventDescription.text = eventSelected.eventDescription
         if (eventSelected.eventUrl.characters.count > 0) {
