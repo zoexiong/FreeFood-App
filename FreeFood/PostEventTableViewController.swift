@@ -79,6 +79,54 @@ class PostEventTableViewController: UITableViewController {
         self.present(alertController, animated: true, completion: nil);
     }
     
+    func submitSuccessful(){
+        alert(message: "submit successful", "submitted!")
+    }
+    
+    //submit alert
+    func submitAlert(message: String, _ submitLog:String){
+        let alertController:UIAlertController = {
+            return UIAlertController(title: "Submit", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        }()
+        
+        let okAlert:UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) { (alert: UIAlertAction!) -> Void in
+            
+            for foodIndex in selected.items{
+                foodItems.append(foodList.list[foodIndex])
+            }
+            
+            //submit success alert and back to main screen
+            let data =  [Constants.Event2.eventName: self.eventName.text! as String]
+            self.storeInDB(data: data)
+            self.eventName.resignFirstResponder()
+            
+            self.submitSuccessful()
+            
+            self.eventName.text! = ""
+            self.pickerTextField.text! = ""
+            self.endPickerTextField.text! = ""
+            self.pickerView = UIDatePicker()
+            self.endPickerView = UIDatePicker()
+            self.eventLocation.text! = ""
+            self.eventZipcode.text! = ""
+            self.eventURL.text! = ""
+            self.eventDescription.text! = ""
+            foodItems = []
+            selected.items = []
+            self.startDate = ""
+            self.endDate = ""
+            self.do_table_refresh()
+
+            NSLog(submitLog)}
+        
+        let cancelAlert:UIAlertAction = UIAlertAction(title:"Cancel", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in
+        }
+        
+        alertController.addAction(okAlert)
+        alertController.addAction(cancelAlert)
+        self.present(alertController, animated: true, completion: nil);
+    }
+    
     open func do_table_refresh()
     {
         DispatchQueue.main.async(execute: {
@@ -189,45 +237,12 @@ class PostEventTableViewController: UITableViewController {
             if name != "" && startTime != "" && endTime != "" && location != "" && zipcode != "" {
                 if selected.items.count >= 1 {
                     if compareResult == ComparisonResult.orderedAscending {
-                        print("\(startTime) is earlier than \(endTime)")
-                        for foodIndex in selected.items{
-                            foodItems.append(foodList.list[foodIndex])
-                        }
-                    /*
-                     let eventObject:AnyObject = [
-                     "event_name":name ,
-                     "location": location ,
-                     "zip_code": zipcode ,
-                     "date":"11/16/2016",
-                     "start_time": "12:30",
-                     "end_time": "13:30",
-                     "foods": foodItems,
-                     "description":description ,
-                     "url": url
-                     ] as AnyObject
-                     
-                     */
-                    
-                    //submit success alert and back to main screen
-                    let data =  [Constants.Event2.eventName: eventName.text! as String]
-                    storeInDB(data: data)
-                    eventName.resignFirstResponder()
-                    alert(message: "submit successful", "submitted!")
-                    eventName.text! = ""
-                    pickerTextField.text! = ""
-                    endPickerTextField.text! = ""
-                    pickerView = UIDatePicker()
-                    endPickerView = UIDatePicker()
-                    eventLocation.text! = ""
-                    eventZipcode.text! = ""
-                    eventURL.text! = ""
-                    eventDescription.text! = ""
-                    foodItems = []
-                    selected.items = []
-                    startDate = ""
-                    endDate = ""
-                    do_table_refresh()
-
+                        //print("\(startTime) is earlier than \(endTime)")
+                        
+                        //double check if they want to submit
+                        
+                   submitAlert(message: "Are you sure all the information is correct and you want to submit now?", "Submit")
+                   
                     }else{
                     alert(message: "The end time must be later than start time", "submit failed")
                     }
