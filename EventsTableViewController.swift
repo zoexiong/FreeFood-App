@@ -30,10 +30,8 @@ class EventsTableViewController: UITableViewController {
     
     var foodName : String = ""
     var filter: Bool = false
-    
+    var filtered: Bool = false
     var eventSelected : Event = Event()
-    
-    
     var refresher: UIRefreshControl!
     var events2 = [FIRDataSnapshot]()
     
@@ -41,29 +39,25 @@ class EventsTableViewController: UITableViewController {
     fileprivate var _refHandle: FIRDatabaseHandle!
     
     override func viewDidLoad() {
-        //self.tableView.reloadData()
+        
+        super.viewDidLoad()
         configureDataBase()
-        
         self.loadData()
-        
+
         //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
-        
         refresher.addTarget(self, action: #selector(EventsTableViewController.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refresher)
         
         //print("Hulle")
         
-        //loadData()
-        //self.tableView.reloadData()
-        
         //self.loadData()
-        self.tableView.reloadData()
-        
-        super.viewDidLoad()
+//        refresher.endRefreshing()
+
         self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
         
         NotificationCenter.default.addObserver(self, selector: #selector(EventsTableViewController.turnOffFilter), name:NSNotification.Name(rawValue: "NotificationIdentifier"), object: nil)
@@ -75,6 +69,11 @@ class EventsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        loadData()
+//        self.tableView.reloadData()
+//    }
     
     func configureDataBase() {
         
@@ -106,7 +105,7 @@ class EventsTableViewController: UITableViewController {
         for i in events2{
             var eventSnapshot : FIRDataSnapshot! = i
             var event = eventSnapshot.value as! [String:String]
-            var filtered: Bool = false
+
             if event[Constants.Event2.eventZipcode]! == zipcode{
                 if filter == true{
                     if event[Constants.Event2.eventFoods]!.range(of: foodName) != nil{
@@ -127,10 +126,10 @@ class EventsTableViewController: UITableViewController {
                     //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
                     newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
                     events.events.append(newEvent)
-                    self.tableView.reloadData()
                 }
                 //i=i+1
             }
+            self.tableView.reloadData()
         }
         
     }
@@ -146,9 +145,7 @@ class EventsTableViewController: UITableViewController {
     func refresh() {
         // clears previous events
         // searches for new events from the same link (JSON File, which could have been updated)
-        //        events = [Event]()
-        //        self.events2 = []
-        //        configureDataBase()
+        //configureDataBase()
         loadData()
         self.tableView.reloadData()
         refresher.endRefreshing()

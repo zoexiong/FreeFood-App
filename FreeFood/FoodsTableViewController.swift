@@ -11,7 +11,6 @@ import Firebase
 
 
 var foodDict=[String:Food]()
-
 class Food {
     var foodName:String
     var foodImage:UIImage?
@@ -53,7 +52,6 @@ class FoodsTableViewController: UITableViewController {
              */
             self.loadData()
             self.tableView.reloadData()
-            print("finally loaded")
         }
         print("Size of list =")
         print(self.events2.count)
@@ -112,16 +110,18 @@ class FoodsTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
-        configureDataBase()
         
+        configureDataBase()
         self.loadData()
         
-        //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
+        super.viewDidLoad()
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
         
+        //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
         refresher.addTarget(self, action: #selector(FoodsTableViewController.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refresher)
         
@@ -130,10 +130,11 @@ class FoodsTableViewController: UITableViewController {
         //refresh()
         //print("Hulle")
         
-        //self.loadData()
         self.tableView.reloadData()
         refresher.endRefreshing()
         
+        //when press tab bar item, refresh the view
+        NotificationCenter.default.addObserver(self, selector: #selector(FoodsTableViewController.refresh), name:NSNotification.Name(rawValue: "NotificationIdentifier2"), object: nil)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -141,8 +142,8 @@ class FoodsTableViewController: UITableViewController {
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    
     func refresh() {
-        
         //configureDataBase()
         loadData()
         self.tableView.reloadData()

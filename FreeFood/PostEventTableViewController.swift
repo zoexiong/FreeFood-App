@@ -54,13 +54,13 @@ class PostEventTableViewController: UITableViewController {
     }
     
     @IBAction func pickDateAction(_ sender: Any) {
-        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm"
         startDate = dateFormatter.string(from: pickerView.date)
         pickerTextField.text = startDate
     }
     
     @IBAction func endPickDateAction(_ sender: Any) {
-        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm"
         endDate = dateFormatter.string(from: endPickerView.date)
         endPickerTextField.text = endDate
     }

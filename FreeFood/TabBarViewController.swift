@@ -15,9 +15,12 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
     // UITabBarDelegate
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print(item.title!)
         if item.title == "Events" {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NotificationIdentifier"), object: nil)
+            self.dismiss(animated: true, completion: {})
+        }
+        if item.title == "Food" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NotificationIdentifier2"), object: nil)
             self.dismiss(animated: true, completion: {})
         }
     }
