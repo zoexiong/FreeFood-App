@@ -58,6 +58,8 @@ class EventsTableViewController: UITableViewController {
         
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(EventsTableViewController.turnOffFilter), name:NSNotification.Name(rawValue: "NotificationIdentifier"), object: nil)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -114,6 +116,7 @@ class EventsTableViewController: UITableViewController {
         }
     }
     
+    //get the filtered events
     func foodFilter(){
         var filteredEvents = Events(events:[])
         print("filterIndex:",filterIndex)
@@ -126,6 +129,15 @@ class EventsTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
+    //turn off filter
+    func turnOffFilter(){
+        filter = false
+        events.events = storeEvents.events
+        refresh()
+    }
+    
+    
+    
     
     func refresh() {
         // clears previous events 
@@ -179,8 +191,7 @@ class EventsTableViewController: UITableViewController {
         let event = events.events[indexPath.row]
         cell.eventName.text = event.eventName
         cell.eventLocation.text = event.eventLocation
-        //看这里看这里
-        //cell.eventDate.text = date
+        cell.eventDate.text = event.eventDate
         cell.eventTime.text = event.eventStartTime+" to "+event.eventEndTime
         cell.eventFoods.text = event.eventFoods
 

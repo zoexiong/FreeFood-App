@@ -11,16 +11,28 @@ import UIKit
 let userDefault = UserDefaults.standard
 
 
-class TabBarViewController: UITabBarController {
+class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
 
+    // UITabBarDelegate
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        print(item.title!)
+        if item.title == "Events" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "NotificationIdentifier"), object: nil)
+            self.dismiss(animated: true, completion: {})
+        }
+    }
+    
+    // UITabBarControllerDelegate
+//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//        print("Selected view controller")
+//    }
+//    
     override func viewDidLoad() {
+        self.delegate = self
         super.viewDidLoad()
 
-
-       
-
-        
     }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
