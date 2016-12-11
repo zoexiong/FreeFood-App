@@ -53,3 +53,10 @@ struct Constants {
 
     }
 }
+
+class Events{
+    var events:[Event] = []
+    init(events:[Event]){
+    self.events = events
+    }
+}

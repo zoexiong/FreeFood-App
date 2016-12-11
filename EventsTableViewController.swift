@@ -13,7 +13,9 @@ import Firebase
 //test data goes here
 
 
-
+    var events = Events(events: [])
+// to store the raw value of events incase it is been filtered again and again
+    var storeEvents = Events(events: [])
 extension String {
     var first: String {
         return String(characters.prefix(1))
@@ -27,9 +29,12 @@ extension String {
 }
 
 class EventsTableViewController: UITableViewController {
+
+    var filterIndex : [Int] = [0]
+    var filter: Bool = false
     
     var eventSelected : Event = Event()
-    var events = [Event]()
+
     
     var refresher: UIRefreshControl!
     var events2 = [FIRDataSnapshot]()
@@ -39,12 +44,11 @@ class EventsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         configureDataBase()
-        loadData()
-    
+        //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
         self.tableView.delegate = self
         self.tableView.dataSource = self
-
-        //self.tableView.reloadData()
+        
+        self.tableView.reloadData()
         
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
@@ -53,7 +57,7 @@ class EventsTableViewController: UITableViewController {
         tableView.addSubview(refresher)
         
         super.viewDidLoad()
-       self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
+        self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -73,9 +77,6 @@ class EventsTableViewController: UITableViewController {
         _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
             
             self.events2.append(snapshot)
-            self.tableView.reloadData()
-
-            
             /*
              print("Item goes here -")
              //print(snapshot.value(forKey: "Event"))
@@ -84,13 +85,10 @@ class EventsTableViewController: UITableViewController {
 
          self.loadData()
         }
-
-        print("Size of list =")
-        print(self.events2.count)
- 
     }
+    
     func loadData() {
-        events=[]
+        events.events=[]
         var i=0
         for _ in events2{
             var eventSnapshot : FIRDataSnapshot! = events2[i]
@@ -106,9 +104,26 @@ class EventsTableViewController: UITableViewController {
             newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
             //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
             newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
-            events.append(newEvent)
+            events.events.append(newEvent)
             i=i+1
-            
+        }
+        storeEvents.events = events.events
+        if (events.events.count - 1) >= filterIndex.max()!{
+            print("events2:",events2.count)
+            foodFilter()
+        }
+    }
+    
+    func foodFilter(){
+        var filteredEvents = Events(events:[])
+        print("filterIndex:",filterIndex)
+        if filter==true{
+            for i in filterIndex{
+                filteredEvents.events.append(storeEvents.events[i])
+            }
+            events.events = filteredEvents.events
+            print("filtered:",events.events.count)
+            self.tableView.reloadData()
         }
     }
     
@@ -121,7 +136,7 @@ class EventsTableViewController: UITableViewController {
 //        loadData()
         self.tableView.reloadData()
         refresher.endRefreshing()
-        print(events.count)
+        print(events.events.count)
     }
     
     override func didReceiveMemoryWarning() {
@@ -138,7 +153,7 @@ class EventsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return events2.count
+        return events.events.count
     }
     
     
@@ -160,8 +175,8 @@ class EventsTableViewController: UITableViewController {
         /*
          foods = foods.replacingOccurrences(of: ",", with: ", ", options: .literal, range: nil)
          */
-        
-        let event = events[indexPath.row]
+        print(indexPath.row)
+        let event = events.events[indexPath.row]
         cell.eventName.text = event.eventName
         cell.eventLocation.text = event.eventLocation
         //看这里看这里
@@ -219,7 +234,7 @@ class EventsTableViewController: UITableViewController {
             let destination = segue.destination as? EventDetailViewController,
             let eventIndex = tableView.indexPathForSelectedRow?.row
         {
-            destination.eventSelected = events[eventIndex]
+            destination.eventSelected = events.events[eventIndex]
         }
 
             /*

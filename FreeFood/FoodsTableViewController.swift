@@ -7,58 +7,111 @@
 
 import UIKit
 import SwiftyJSON
+import Firebase
+
+
+var foodDict=[String:Food]()
 
 class Food {
     var foodName:String
-    var foodImage:UIImage
-    init(foodName:String, foodImage:UIImage){
+    var foodImage:UIImage?
+    var eventsIndex:[Int]
+    init(foodName:String, foodImage:UIImage?, eventsIndex:[Int]){
         self.foodImage=foodImage
         self.foodName=foodName
+        self.eventsIndex = eventsIndex
     }
 }
 
+//let cookie = Food(foodName:"cookie",foodImage:#imageLiteral(resourceName: "Cookie"),eventsIndex:[])
+
 class FoodsTableViewController: UITableViewController {
     
+    var events2 = [FIRDataSnapshot]()
     var foods=[Food]()
-    var foodsLink = "https://raw.githubusercontent.com/zoexiong/free-food/Z_branch/FreeFood/foodList.json"
     var refresher: UIRefreshControl!
+    var ref: FIRDatabaseReference!
+    fileprivate var _refHandle: FIRDatabaseHandle!
     
-    func loadData() {
-        let url = URL(string: foodsLink)!
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print(error!)
-            } else {
-                if let urlContent = data {
-                    do {
-                        let jsonResult = try JSONSerialization.jsonObject(with: urlContent, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject
-                        self.parseJsonFile(JSON(jsonResult))
-                        
-                    } catch {
-                        
-                        print ("JSON Failed")
-                    }
-                }
-            }
+    func configureDataBase() {
+        
+        
+        
+        ref = FIRDatabase.database().reference()
+        
+        
+        
+        //print(ref.child("Events").observe(.childAdded))
+        _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
+            
+            self.events2.append(snapshot)
+            self.tableView.reloadData()
+            
+            
+            /*
+             print("Item goes here -")
+             //print(snapshot.value(forKey: "Event"))
+             print(snapshot.children.allObjects)
+             */
+            
+            self.loadData()
         }
-        task.resume()
+        
+        print("Size of list =")
+        print(self.events2.count)
+        
     }
     
-    func parseJsonFile(_ input: JSON) {
-        for (key, _) : (String, JSON) in input {
-            let newFoodItem : Food = Food(foodName: "", foodImage: #imageLiteral(resourceName: "Sandwich"))
-            newFoodItem.foodName = key
-            foods.append(newFoodItem)
-            print (key)
+    func loadData() {
+        events.events=[]
+        var i=0
+        for _ in events2{
+            let eventSnapshot : FIRDataSnapshot! = events2[i]
+            var event = eventSnapshot.value as! [String:String]
             
+            let newEvent = Event()
+            newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
+            newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
+            newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
+            newEvent.eventEndTime = event[Constants.Event2.eventEndTime] ?? "[text]"
+            newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
+            newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
+            newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
+            //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
+            newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
+            events.events.append(newEvent)
+            i=i+1
         }
-        self.tableView.reloadData()
+        getFoodList()
+        print(foodDict.count)
+    }
+
+    func getFoodList(){
+        var i=0
+        foodDict=[String:Food]()
+        foods=[Food]()
+        for event in events.events{
+            let foods = event.eventFoods
+            let foodsNoSpace = foods.replacingOccurrences(of: " ", with: "")
+            let foodArray = foodsNoSpace.characters.split{$0 == ","}.map(String.init)
+            for food in foodArray{
+                if foodDict[food]==nil{
+                    foodDict[food]=Food(foodName:food,foodImage:nil,eventsIndex:[i])
+                }else{
+                    foodDict[food]?.eventsIndex.append(i)
+                }
+            }
+            i=i+1
+        }
+        for (_,foodItem) in foodDict{
+            foods.append(foodItem)
+        }
     }
     
     override func viewDidLoad() {
-               self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
+        configureDataBase()
+        self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
         super.viewDidLoad()
-        loadData()
         
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
@@ -75,8 +128,7 @@ class FoodsTableViewController: UITableViewController {
     }
     
     func refresh() {
-        foods = [Food]()
-        loadData()
+        configureDataBase()
         self.tableView.reloadData()
         refresher.endRefreshing()
     }
@@ -106,6 +158,23 @@ class FoodsTableViewController: UITableViewController {
         return cell
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if  segue.identifier == "foodToEvents",
+            let destination = segue.destination as? EventsTableViewController,
+            let foodIndex = tableView.indexPathForSelectedRow?.row
+        {
+            destination.filterIndex = foods[foodIndex].eventsIndex
+            destination.filter = true
+        }
+        
+        /*
+         print(eventSelected.eventName)
+         
+         viewController.eventSelected = self.eventSelected
+         */
+    }
     
     /*
      // Override to support conditional editing of the table view.
@@ -151,6 +220,8 @@ class FoodsTableViewController: UITableViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    
+    
     
 }
 

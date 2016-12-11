@@ -57,6 +57,7 @@
 		45D3B92E1DFCA8A20087B77C /* DefaultSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultSettingViewController.swift; sourceTree = "<group>"; };
 		45D3B92F1DFCA8A20087B77C /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		45D3B9301DFCA8A20087B77C /* UserZipcodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserZipcodeViewController.swift; sourceTree = "<group>"; };
+		45E8C5181DFCCF77003BF3F7 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		47AAAF397AD89F6A0DE2B348 /* Pods_FreeFoodTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreeFoodTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5721CB130B14DD06B201F2C0 /* Pods-FreeFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreeFood.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FreeFood/Pods-FreeFood.debug.xcconfig"; sourceTree = "<group>"; };
 		97A9BFC80D9BC259A76BFCE5 /* Pods_FreeFood.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreeFood.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +179,7 @@
 				B61E04721DEB91A3001CB781 /* EventDetailViewController.swift */,
 				B628D3CA1DEB861E0024A819 /* EventTableViewCell.swift */,
 				B628D3CC1DEB867F0024A819 /* EventsTableViewController.swift */,
+				45E8C5181DFCCF77003BF3F7 /* MyPlayground.playground */,
 				B41E2B571DF3C2F700D65AAF /* Event.swift */,
 				B628D3C41DEB85810024A819 /* FoodTableViewCell.swift */,
 				B628D3C21DEB85650024A819 /* FoodsTableViewController.swift */,

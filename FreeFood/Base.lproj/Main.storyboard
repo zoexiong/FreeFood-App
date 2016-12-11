@@ -61,7 +61,7 @@
                                 <connections>
                                     <outlet property="foodImage" destination="IpE-J1-3Bz" id="6ns-0V-JzJ"/>
                                     <outlet property="foodName" destination="k7T-ft-d77" id="ygl-hz-VJu"/>
-                                    <segue destination="4Yk-J2-yNc" kind="show" id="enb-1y-IaL"/>
+                                    <segue destination="4Yk-J2-yNc" kind="show" identifier="foodToEvents" id="enb-1y-IaL"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
