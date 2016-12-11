@@ -173,6 +173,7 @@ class PostEventTableViewController: UITableViewController {
     
     @IBAction func submitEvent(_ sender: Any) {
         
+        
         if !eventName.text!.isEmpty {
             //get the values in form and construct JSON
             let name = eventName.text!
@@ -237,6 +238,8 @@ class PostEventTableViewController: UITableViewController {
             else{
                 submitFailedAlert()
             }
+        }else{
+            alert(message: "Please enter event name","submit failed")
         }
     }
     override func viewDidLoad() {

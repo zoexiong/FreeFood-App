@@ -128,7 +128,8 @@ class FoodsTableViewController: UITableViewController {
     }
     
     func refresh() {
-        configureDataBase()
+        
+        //configureDataBase()
         self.tableView.reloadData()
         refresher.endRefreshing()
     }
