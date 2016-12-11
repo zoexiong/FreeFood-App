@@ -43,7 +43,7 @@ class EventDetailViewController: UIViewController {
     func showEventDetails() {
         //print(eventSelected.eventName)
         //eventName.text = eventSelected.eventName
-        eventName.text = "1111"
+        eventName.text = eventSelected.eventName
         eventFoods.text = eventSelected.eventFoods
         eventTime.text = eventSelected.eventDate + "    " + eventSelected.eventStartTime+" to "+eventSelected.eventEndTime
         eventLocation.text = eventSelected.eventLocation

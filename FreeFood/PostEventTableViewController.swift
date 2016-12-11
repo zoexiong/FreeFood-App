@@ -48,7 +48,7 @@ class PostEventTableViewController: UITableViewController {
     var endPickerView = UIDatePicker()
     
     //var foodItems = [Food]() // of a particular event added by host
-
+    
     func submitFailedAlert(){
         alert(message: "You must fill all the required fields (indicated by *) to post the event", "submission failed")
     }
@@ -64,7 +64,7 @@ class PostEventTableViewController: UITableViewController {
         endDate = dateFormatter.string(from: endPickerView.date)
         endPickerTextField.text = endDate
     }
-
+    
     
     //add alert
     func alert(message: String, _ submitLog:String){
@@ -116,7 +116,7 @@ class PostEventTableViewController: UITableViewController {
             self.startDate = ""
             self.endDate = ""
             self.do_table_refresh()
-
+            
             NSLog(submitLog)}
         
         let cancelAlert:UIAlertAction = UIAlertAction(title:"Cancel", style: UIAlertActionStyle.cancel) { (alert: UIAlertAction!) -> Void in
@@ -230,7 +230,7 @@ class PostEventTableViewController: UITableViewController {
             let startTime = pickerTextField.text!
             let endTime = pickerTextField.text!
             let compareResult = pickerView.date.compare(endPickerView.date as Date)
-
+            
             //let url = eventURL.text!
             //let description = eventDescription.text!
             //test if user completed required fields
@@ -241,10 +241,10 @@ class PostEventTableViewController: UITableViewController {
                         
                         //double check if they want to submit
                         
-                   submitAlert(message: "Are you sure all the information is correct and you want to submit now?", "Submit")
-                   
+                        submitAlert(message: "Are you sure all the information is correct and you want to submit now?", "Submit")
+                        
                     }else{
-                    alert(message: "The end time must be later than start time", "submit failed")
+                        alert(message: "The end time must be later than start time", "submit failed")
                     }
                 } else{
                     alert(message: "You must enter at least one food item to post the event", "submit failed")
@@ -305,12 +305,12 @@ class PostEventTableViewController: UITableViewController {
         toolbarDone.items = [doneButton] // we can even add cancel button too
         pickerTextField.inputAccessoryView = toolbarDone
         endPickerTextField.inputAccessoryView = toolbarDone
-
+        
         // connecting to firebase databse
         ref = FIRDatabase.database().reference()
     }
     
-  //prepared for the notificationCenter
+    //prepared for the notificationCenter
     func updateTable() {
         do_table_refresh()
     }

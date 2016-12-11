@@ -45,7 +45,7 @@ class FoodsTableViewController: UITableViewController {
         _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
             
             self.events2.append(snapshot)
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
             
             
             /*
@@ -54,7 +54,6 @@ class FoodsTableViewController: UITableViewController {
              print(snapshot.children.allObjects)
              */
             
-            self.loadData()
         }
         
         print("Size of list =")
@@ -64,28 +63,33 @@ class FoodsTableViewController: UITableViewController {
     
     func loadData() {
         events.events=[]
-        var i=0
-        for _ in events2{
-            let eventSnapshot : FIRDataSnapshot! = events2[i]
+        var zipcode = userDefault.string(forKey: "zipcode")!
+        
+        //var i=0
+        for i in events2{
+            let eventSnapshot : FIRDataSnapshot! = i
             var event = eventSnapshot.value as! [String:String]
             
-            let newEvent = Event()
-            newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
-            newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
-            newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
-            newEvent.eventEndTime = event[Constants.Event2.eventEndTime] ?? "[text]"
-            newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
-            newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
-            newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
-            //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
-            newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
-            events.events.append(newEvent)
-            i=i+1
+            if event[Constants.Event2.eventZipcode]! == zipcode{
+                
+                let newEvent = Event()
+                newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
+                newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
+                newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
+                newEvent.eventEndTime = event[Constants.Event2.eventEndTime] ?? "[text]"
+                newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
+                newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
+                newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
+                //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
+                newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
+                events.events.append(newEvent)
+                //i=i+1
+            }
         }
         getFoodList()
         print(foodDict.count)
     }
-
+    
     func getFoodList(){
         var i=0
         foodDict=[String:Food]()
@@ -98,7 +102,7 @@ class FoodsTableViewController: UITableViewController {
                 if foodDict[food]==nil{
                     foodDict[food]=Food(foodName:food,foodImage:nil,eventsIndex:[i])
                 }else{
-                    foodDict[food]?.eventsIndex.append(i)
+                    //foodDict[food]?.eventsIndex.append(i)
                 }
             }
             i=i+1
@@ -110,15 +114,26 @@ class FoodsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         configureDataBase()
-        self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
-        super.viewDidLoad()
         
+        self.loadData()
+        
+        //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
         
-        // calling function refresh on refresher conrtoller
         refresher.addTarget(self, action: #selector(FoodsTableViewController.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refresher)
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
+        
+        //refresh()
+        //print("Hulle")
+        
+        //self.loadData()
+        self.tableView.reloadData()
+        refresher.endRefreshing()
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -130,6 +145,7 @@ class FoodsTableViewController: UITableViewController {
     func refresh() {
         
         //configureDataBase()
+        loadData()
         self.tableView.reloadData()
         refresher.endRefreshing()
     }
@@ -166,7 +182,7 @@ class FoodsTableViewController: UITableViewController {
             let destination = segue.destination as? EventsTableViewController,
             let foodIndex = tableView.indexPathForSelectedRow?.row
         {
-            destination.filterIndex = foods[foodIndex].eventsIndex
+            destination.foodName = foods[foodIndex].foodName
             destination.filter = true
         }
         

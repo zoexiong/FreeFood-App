@@ -13,9 +13,7 @@ import Firebase
 //test data goes here
 
 
-    var events = Events(events: [])
-// to store the raw value of events incase it is been filtered again and again
-    var storeEvents = Events(events: [])
+var events = Events(events: [])
 extension String {
     var first: String {
         return String(characters.prefix(1))
@@ -29,37 +27,48 @@ extension String {
 }
 
 class EventsTableViewController: UITableViewController {
-
-    var filterIndex : [Int] = [0]
+    
+    var foodName : String = ""
     var filter: Bool = false
     
     var eventSelected : Event = Event()
-
+    
     
     var refresher: UIRefreshControl!
     var events2 = [FIRDataSnapshot]()
-
+    
     var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle!
-
+    
     override func viewDidLoad() {
+        //self.tableView.reloadData()
         configureDataBase()
+        
+        self.loadData()
+        
         //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
-        self.tableView.reloadData()
-        
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
         
-        refresher.addTarget(self, action: #selector(FoodsTableViewController.refresh), for: UIControlEvents.valueChanged)
+        refresher.addTarget(self, action: #selector(EventsTableViewController.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refresher)
+        
+        //print("Hulle")
+        
+        //loadData()
+        //self.tableView.reloadData()
+        
+        //self.loadData()
+        self.tableView.reloadData()
         
         super.viewDidLoad()
         self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
         
         NotificationCenter.default.addObserver(self, selector: #selector(EventsTableViewController.turnOffFilter), name:NSNotification.Name(rawValue: "NotificationIdentifier"), object: nil)
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -68,12 +77,12 @@ class EventsTableViewController: UITableViewController {
     }
     
     func configureDataBase() {
-
-
+        
+        
         
         ref = FIRDatabase.database().reference()
-
-
+        
+        
         
         //print(ref.child("Events").observe(.childAdded))
         _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
@@ -84,71 +93,63 @@ class EventsTableViewController: UITableViewController {
              //print(snapshot.value(forKey: "Event"))
              print(snapshot.children.allObjects)
              */
-
-         self.loadData()
+            
         }
     }
     
     func loadData() {
+        
+        var zipcode = userDefault.string(forKey: "zipcode")!
         events.events=[]
-        var i=0
-        for _ in events2{
-            var eventSnapshot : FIRDataSnapshot! = events2[i]
+        //var i=0
+        for i in events2{
+            var eventSnapshot : FIRDataSnapshot! = i
             var event = eventSnapshot.value as! [String:String]
-            
-            let newEvent = Event()
-            newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
-            newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
-            newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
-            newEvent.eventEndTime = event[Constants.Event2.eventEndTime] ?? "[text]"
-            newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
-            newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
-            newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
-            //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
-            newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
-            events.events.append(newEvent)
-            i=i+1
+            var filtered: Bool = false
+            if event[Constants.Event2.eventZipcode]! == zipcode{
+                if filter == true{
+                    if event[Constants.Event2.eventFoods]!.range(of: foodName) != nil{
+                        filtered = false
+                    }else{
+                        filtered = true
+                    }
+                }
+                if filtered == false {
+                    let newEvent = Event()
+                    newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
+                    newEvent.eventLocation = event[Constants.Event2.eventLocation] ?? "[text]"
+                    newEvent.eventStartTime = event[Constants.Event2.eventStartTime] ?? "[text]"
+                    newEvent.eventEndTime = event[Constants.Event2.eventEndTime] ?? "[text]"
+                    newEvent.eventDate = event[Constants.Event2.eventDate] ?? "[text]"
+                    newEvent.eventFoods = event[Constants.Event2.eventFoods] ?? "[text]"
+                    newEvent.eventUrl = event[Constants.Event2.eventUrl] ?? "[text]"
+                    //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
+                    newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
+                    events.events.append(newEvent)
+                }
+                //i=i+1
+            }
         }
-        storeEvents.events = events.events
-        if (events.events.count - 1) >= filterIndex.max()!{
-            print("events2:",events2.count)
-            foodFilter()
-        }
+        
     }
     
-    //get the filtered events
-    func foodFilter(){
-        var filteredEvents = Events(events:[])
-        print("filterIndex:",filterIndex)
-        if filter==true{
-            for i in filterIndex{
-                filteredEvents.events.append(storeEvents.events[i])
-            }
-            events.events = filteredEvents.events
-            print("filtered:",events.events.count)
-            self.tableView.reloadData()
-        }
-    }
+    
+    
     //turn off filter
     func turnOffFilter(){
         filter = false
-        events.events = storeEvents.events
         refresh()
     }
     
-    
-    
-    
     func refresh() {
-        // clears previous events 
+        // clears previous events
         // searches for new events from the same link (JSON File, which could have been updated)
-//        events = [Event]()
-//        self.events2 = []
-//        configureDataBase()
-//        loadData()
+        //        events = [Event]()
+        //        self.events2 = []
+        //        configureDataBase()
+        loadData()
         self.tableView.reloadData()
         refresher.endRefreshing()
-        print(events.events.count)
     }
     
     override func didReceiveMemoryWarning() {
@@ -171,13 +172,15 @@ class EventsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("you selected \(indexPath.row)")
-       // let temp: FIRDataSnapshot = events2[indexPath.row]
+        // let temp: FIRDataSnapshot = events2[indexPath.row]
         /*
-        print("check this")
-        print(temp)
-        */
+         print("check this")
+         print(temp)
+         */
         //eventSelected = events2[indexPath.row]
-        performSegue(withIdentifier: "DetailsVC", sender: self)
+        
+        
+        //performSegue(withIdentifier: "DetailsVC", sender: self)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -194,7 +197,7 @@ class EventsTableViewController: UITableViewController {
         cell.eventDate.text = event.eventDate
         cell.eventTime.text = event.eventStartTime+" to "+event.eventEndTime
         cell.eventFoods.text = event.eventFoods
-
+        
         
         return cell
     }
@@ -247,12 +250,12 @@ class EventsTableViewController: UITableViewController {
         {
             destination.eventSelected = events.events[eventIndex]
         }
-
-            /*
-            print(eventSelected.eventName)
-            
-            viewController.eventSelected = self.eventSelected
-                */
+        
+        /*
+         print(eventSelected.eventName)
+         
+         viewController.eventSelected = self.eventSelected
+         */
     }
 }
 
