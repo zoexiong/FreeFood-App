@@ -45,21 +45,20 @@ class FoodsTableViewController: UITableViewController {
         _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
             
             self.events2.append(snapshot)
-            //self.tableView.reloadData()
-            
-            
+
             /*
              print("Item goes here -")
              //print(snapshot.value(forKey: "Event"))
              print(snapshot.children.allObjects)
              */
-            
+            self.loadData()
+            self.tableView.reloadData()
+            print("finally loaded")
         }
-        
         print("Size of list =")
         print(self.events2.count)
-        
-    }
+
+}
     
     func loadData() {
         events.events=[]

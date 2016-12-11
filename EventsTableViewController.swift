@@ -88,6 +88,7 @@ class EventsTableViewController: UITableViewController {
         _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
             
             self.events2.append(snapshot)
+            self.tableView.reloadData()
             /*
              print("Item goes here -")
              //print(snapshot.value(forKey: "Event"))
@@ -126,6 +127,7 @@ class EventsTableViewController: UITableViewController {
                     //newEvent.eventZipcode = event[Constants.Event2.eventZipcode] ?? "[text]"
                     newEvent.eventDescription = event[Constants.Event2.eventDescription] ?? "[text]"
                     events.events.append(newEvent)
+                    self.tableView.reloadData()
                 }
                 //i=i+1
             }
@@ -190,7 +192,6 @@ class EventsTableViewController: UITableViewController {
         /*
          foods = foods.replacingOccurrences(of: ",", with: ", ", options: .literal, range: nil)
          */
-        print(indexPath.row)
         let event = events.events[indexPath.row]
         cell.eventName.text = event.eventName
         cell.eventLocation.text = event.eventLocation
