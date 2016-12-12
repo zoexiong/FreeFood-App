@@ -18,7 +18,7 @@ class Event{
     var eventDescription:String
     var eventZipcode:String
     var eventUrl:String
-
+    
     
     convenience init() {
         self.init(eventName: "", eventZipcode:"", eventStartTime: "", eventEndTime: "", eventDate: "", eventLocation: "", eventFoods: "", eventDescription: "", eventUrl: "")
@@ -34,7 +34,7 @@ class Event{
         self.eventDescription = eventDescription
         self.eventZipcode = eventZipcode
         self.eventUrl = eventUrl
-
+        
     }
     
 }
@@ -50,13 +50,13 @@ struct Constants {
         static let eventDescription = "Description"
         static let eventUrl = "Url"
         static let eventZipcode = "Zipcode"
-
+        
     }
 }
 
 class Events{
     var events:[Event] = []
     init(events:[Event]){
-    self.events = events
+        self.events = events
     }
 }

@@ -30,9 +30,6 @@ class EventDetailViewController: UIViewController {
         super.viewDidLoad()
         detailButton.isHidden = true //by default, no url link available, so the button is hidden
         showEventDetails()
-        
-        print("event name is: ",eventName.text!,eventSelected.eventName)
-        print("event DESCRIPTION is: ",eventDescription.text!,eventSelected.eventDescription)
         //check url, when available, isHidden = false
         
         // Do any additional setup after loading the view.
@@ -46,12 +43,17 @@ class EventDetailViewController: UIViewController {
     func showEventDetails() {
         //print(eventSelected.eventName)
         //eventName.text = eventSelected.eventName
-        eventName.text! = eventSelected.eventName
-        eventFoods.text! = eventSelected.eventFoods
-        eventTime.text! = eventSelected.eventDate + "    " + eventSelected.eventStartTime+" to "+eventSelected.eventEndTime
-        eventLocation.text! = eventSelected.eventLocation
-        eventDescription.text! = eventSelected.eventDescription
-        if (eventSelected.eventUrl.characters.count > 0) {
+        eventName.text = eventSelected.eventName
+        eventFoods.text = eventSelected.eventFoods
+        eventTime.text = eventSelected.eventDate + "    " + eventSelected.eventStartTime+" to "+eventSelected.eventEndTime
+        eventLocation.text = eventSelected.eventLocation
+        
+        if eventSelected.eventDescription != "[text]"{
+            
+            eventDescription.text = eventSelected.eventDescription
+        }
+        let eventURLString = eventSelected.eventUrl
+        if (!(eventURLString == "[text]")) {
             detailButton.isHidden = false
         }
     }
@@ -67,6 +69,10 @@ class EventDetailViewController: UIViewController {
         if segue.identifier == "RSVPVC" {
             let viewController = segue.destination as! WebViewController
             viewController.urlLink = eventSelected.eventUrl
+            /*
+             print("THUS ON")
+             print(eventSelected.eventUrl)
+             */
         }
     }
 }

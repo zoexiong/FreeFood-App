@@ -10,10 +10,36 @@ import UIKit
 
 class WebViewController: UIViewController {
     
+    @IBOutlet weak var webview: UIWebView!
     var urlLink: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var urlLink2: URL
+        
+        
+        urlLink2 = URL(string: urlLink)!
+        
+        /*
+         if urlLink.hasPrefix("www") {
+         urlLink2 = URL(string: urlLink)!
+         } else {
+         urlLink2 = URL(string: "www." + (urlLink))!
+         }
+         */
+        if urlLink.contains("http") {
+            urlLink2 = URL(string: urlLink)!
+        } else {
+            urlLink2 = URL(string: "https://" + (urlLink))!
+        }
+        
+        
+        /*
+         print("THUS PAGE")
+         print(urlLink2)
+         */
+        webview.loadRequest(URLRequest(url: urlLink2))
         // Do any additional setup after loading the view.
     }
     

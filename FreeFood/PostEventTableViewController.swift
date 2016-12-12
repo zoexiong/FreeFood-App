@@ -105,8 +105,6 @@ class PostEventTableViewController: UITableViewController {
             self.eventName.text! = ""
             self.pickerTextField.text! = ""
             self.endPickerTextField.text! = ""
-            self.pickerView = UIDatePicker()
-            self.endPickerView = UIDatePicker()
             self.eventLocation.text! = ""
             self.eventZipcode.text! = ""
             self.eventURL.text! = ""
@@ -258,6 +256,12 @@ class PostEventTableViewController: UITableViewController {
         }
     }
     override func viewDidLoad() {
+        
+        
+        print("Current date from post")
+        print(NSDate())
+        
+        
         super.viewDidLoad()
         
         //create a reuseable cell for each food item displayed in the food list

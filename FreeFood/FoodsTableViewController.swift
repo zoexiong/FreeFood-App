@@ -11,6 +11,7 @@ import Firebase
 
 
 var foodDict=[String:Food]()
+
 class Food {
     var foodName:String
     var foodImage:UIImage?
@@ -28,6 +29,8 @@ class FoodsTableViewController: UITableViewController {
     
     var events2 = [FIRDataSnapshot]()
     var foods=[Food]()
+    var dateFormatter = DateFormatter()
+    
     var refresher: UIRefreshControl!
     var ref: FIRDatabaseReference!
     fileprivate var _refHandle: FIRDatabaseHandle!
@@ -44,7 +47,7 @@ class FoodsTableViewController: UITableViewController {
         _refHandle = ref.child("Events").observe(.childAdded) { (snapshot: FIRDataSnapshot) in
             
             self.events2.append(snapshot)
-
+            
             /*
              print("Item goes here -")
              //print(snapshot.value(forKey: "Event"))
@@ -52,22 +55,51 @@ class FoodsTableViewController: UITableViewController {
              */
             self.loadData()
             self.tableView.reloadData()
+            print("finally loaded")
         }
         print("Size of list =")
         print(self.events2.count)
-
-}
+        
+    }
     
     func loadData() {
         events.events=[]
-        var zipcode = userDefault.string(forKey: "zipcode")!
+        let zipcode = userDefault.string(forKey: "zipcode")!
+        
+        
+        
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm"
+        
+        
+        let current_date: NSDate = NSDate()
         
         //var i=0
         for i in events2{
+            
+            
             let eventSnapshot : FIRDataSnapshot! = i
             var event = eventSnapshot.value as! [String:String]
             
-            if event[Constants.Event2.eventZipcode]! == zipcode{
+            let given_end_time = event[Constants.Event2.eventEndTime]!
+            //print(given_end_time)
+            
+            
+            let given_date = event[Constants.Event2.eventDate]!
+            
+            //dateFormatter.date(from: event[Constants.Event2.eventDate]!)
+            
+            let end = given_date+" "+given_end_time
+            
+            //print(end)
+            
+            
+            //let this_date = dateFormatter.date(from: end)
+            //this_date?.addingTimeInterval(-28800)
+            //print(dateFormatter.date(from: end)!)
+            
+            let compareResult = current_date.compare(dateFormatter.date(from: end)! as Date)
+            
+            if event[Constants.Event2.eventZipcode]! == zipcode && compareResult == ComparisonResult.orderedAscending{
                 
                 let newEvent = Event()
                 newEvent.eventName = event[Constants.Event2.eventName] ?? "[name]"
@@ -83,6 +115,7 @@ class FoodsTableViewController: UITableViewController {
                 //i=i+1
             }
         }
+        
         getFoodList()
         print(foodDict.count)
     }
@@ -110,31 +143,30 @@ class FoodsTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
-        
         configureDataBase()
+        
         self.loadData()
         
-        super.viewDidLoad()
-        
+        //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
         self.tableView.delegate = self
         self.tableView.dataSource = self
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
         
-        //when user click eventsView(not entering from food to events map), set the filter to false and load all the events
         refresher.addTarget(self, action: #selector(FoodsTableViewController.refresh), for: UIControlEvents.valueChanged)
         tableView.addSubview(refresher)
         
-        self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
+        //self.tableView.contentInset = UIEdgeInsetsMake(66,0,0,0)
         
         //refresh()
         //print("Hulle")
         
+        //self.loadData()
         self.tableView.reloadData()
         refresher.endRefreshing()
         
-        //when press tab bar item, refresh the view
         NotificationCenter.default.addObserver(self, selector: #selector(FoodsTableViewController.refresh), name:NSNotification.Name(rawValue: "NotificationIdentifier2"), object: nil)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -142,8 +174,8 @@ class FoodsTableViewController: UITableViewController {
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
-    
     func refresh() {
+        
         //configureDataBase()
         loadData()
         self.tableView.reloadData()
@@ -170,6 +202,55 @@ class FoodsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "foodCell", for: indexPath) as! FoodTableViewCell
         let food = foods[indexPath.row]
+        switch(food.foodName){
+        case "Assorted Dessert":
+            food.foodImage = #imageLiteral(resourceName: "Assorted Dessert")
+        case "Barbeque":
+            food.foodImage = #imageLiteral(resourceName: "Barbeque")
+        case "Bread":
+            food.foodImage = #imageLiteral(resourceName: "Bread")
+        case "Burger":
+            food.foodImage = #imageLiteral(resourceName: "Burger")
+        case "Cake":
+            food.foodImage = #imageLiteral(resourceName: "Cake")
+        case "Coffee":
+            food.foodImage = #imageLiteral(resourceName: "Coffee")
+        case "Coke":
+            food.foodImage = #imageLiteral(resourceName: "Coke")
+        case "Cookie":
+            food.foodImage = #imageLiteral(resourceName: "Cookie")
+        case "Fries":
+            food.foodImage = #imageLiteral(resourceName: "Fries")
+        case "Fruit":
+            food.foodImage = #imageLiteral(resourceName: "Fruit")
+        case "Hotdog":
+            food.foodImage = #imageLiteral(resourceName: "Hotdog")
+        case "Ice Cream":
+            food.foodImage = #imageLiteral(resourceName: "Ice Cream")
+        case "Juice":
+            food.foodImage = #imageLiteral(resourceName: "Juice")
+        case "Muffin":
+            food.foodImage = #imageLiteral(resourceName: "Muffin")
+        case "Pasta":
+            food.foodImage = #imageLiteral(resourceName: "Pasta")
+        case "Pastry":
+            food.foodImage = #imageLiteral(resourceName: "Pastry")
+        case "Pie":
+            food.foodImage = #imageLiteral(resourceName: "Pie")
+        case "Pizza":
+            food.foodImage = #imageLiteral(resourceName: "Pizza")
+        case "Rice":
+            food.foodImage = #imageLiteral(resourceName: "Rice")
+        case "Salad":
+            food.foodImage = #imageLiteral(resourceName: "Salad")
+        case "Sandwich":
+            food.foodImage = #imageLiteral(resourceName: "Sandwich")
+        case "Taco":
+            food.foodImage = #imageLiteral(resourceName: "Taco")
+        default:
+            food.foodImage = #imageLiteral(resourceName: "Defaultfood")
+            
+        }
         cell.foodImage.image = food.foodImage
         cell.foodName.text = food.foodName
         return cell

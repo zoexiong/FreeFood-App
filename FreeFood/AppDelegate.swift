@@ -43,6 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else{
             print("couldn't reach rootViewController named UITabBarController")
         }
+        
+        UINavigationBar.appearance().barTintColor =  UIColor(red: 255, green: 255, blue: 255)
+        UITabBar.appearance().barTintColor =  UIColor(red: 255, green: 255, blue: 255)
+        UITabBar.appearance().tintColor =  UIColor(red: 26, green: 152, blue: 255)
+        UINavigationBar.appearance().tintColor =  UIColor(red: 26, green: 152, blue: 255)
+        
+        
         return true
     }
     
